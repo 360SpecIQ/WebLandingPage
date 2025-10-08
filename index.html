@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360SpecIQ - Cross-Market Performance Analytics for Speculators</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the gradient and visual flair */
+        .spec-bg {
+            background-color: #0d1117; /* GitHub Dark Mode style background */
+        }
+        .spec-gradient-text {
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="spec-bg text-gray-200 font-sans min-h-screen flex flex-col">
+
+    <!-- Header / Navigation Bar -->
+    <header class="p-4 sm:px-8 border-b border-gray-800 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-2 text-2xl font-extrabold tracking-tight text-white">
+                <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 10h18M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span>360SpecIQ</span>
+            </a>
+            
+            <!-- CTA Button -->
+            <a href="#" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg transition duration-200 text-sm">
+                Start Free Trial
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <!-- 1. Hero Section -->
+        <section class="py-16 md:py-24 text-center max-w-6xl mx-auto px-4">
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6">
+                Master Your <span class="spec-gradient-text">Entire Speculative Portfolio</span>.
+            </h1>
+            <p class="text-xl sm:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
+                Unify all your profits and risks—from options and crypto to sports betting and prediction markets—in one powerful, data-verified dashboard.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold rounded-xl shadow-2xl transition duration-300 transform hover:scale-105">
+                    Connect Your Accounts
+                </a>
+                <a href="#" class="px-8 py-4 bg-gray-700 hover:bg-gray-600 text-gray-200 text-lg font-bold rounded-xl transition duration-300 transform hover:scale-105">
+                    View Demo Dashboard
+                </a>
+            </div>
+            
+            <!-- Placeholder for App Screenshot/Dashboard -->
+            <div class="mt-16 bg-gray-800/50 p-6 rounded-2xl shadow-inner shadow-indigo-900/50 border border-indigo-500/30">
+                <p class="text-indigo-400 text-lg font-mono">
+                    // 360SpecIQ Dashboard Preview: Unified P/L Visualization
+                </p>
+                <!-- Image placeholder using Tailwind utility classes -->
+                <div class="h-48 sm:h-72 md:h-96 w-full mt-4 bg-gray-700 rounded-lg flex items-center justify-center">
+                    <svg class="w-16 h-16 text-indigo-500 opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 11h3v10H4zm6-7h3v17h-3zM16 8h3v13h-3z"></path>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Features/Value Proposition Section -->
+        <section class="py-16 md:py-20 bg-gray-800/30 border-t border-b border-gray-800 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center mb-12 text-white">
+                    Institutional-Grade Analytics for the Everyday Speculator
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Feature Card 1: Unified P/L -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-indigo-500/20 transition duration-300 border border-gray-700">
+                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-600/20 text-indigo-400">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Unified P/L Across All Markets</h3>
+                        <p class="text-gray-400">
+                            Stop checking fragmented accounts. Consolidate your performance—options, futures, crypto, sports betting, and prediction markets—into one true profitability figure.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 2: Risk-Adjusted Metrics -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-indigo-500/20 transition duration-300 border border-gray-700">
+                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-600/20 text-indigo-400">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6m-9-4h9"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Measure True Risk Exposure</h3>
+                        <p class="text-gray-400">
+                            Go beyond ROI. Understand your risk-adjusted returns with **Sharpe, Sortino, and Max Drawdown** metrics previously reserved for institutional traders.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 3: Social Accountability -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-indigo-500/20 transition duration-300 border border-gray-700">
+                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-600/20 text-indigo-400">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6a2 2 0 002-2v-1a2 2 0 00-2-2h-2.586l-1.414-1.414A2 2 0 0012 14h-2m4 0h2m-4 0h2m-4 0h2"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Verified Social Leaderboard</h3>
+                        <p class="text-gray-400">
+                            Build credibility. Benchmark your performance against the community on our social leaderboard, where every P/L and return is data-verified.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CTA / Pricing Summary -->
+        <section class="py-16 md:py-20 max-w-5xl mx-auto px-4 text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 text-white">
+                Start with Free, Scale with Pro.
+            </h2>
+            <p class="text-xl text-gray-400 mb-8">
+                Our **Freemium Model** lets you access unified P/L, basic metrics, and manual uploads at no cost. Upgrade to Pro for **Sharpe Ratio, Max Drawdown, and AI insights.**
+            </p>
+            <a href="#" class="inline-block px-10 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-bold rounded-xl shadow-2xl shadow-indigo-500/40 transition duration-300 transform hover:translate-y-[-2px]">
+                See Pricing Plans
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-8 border-t border-gray-800 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-gray-500 text-sm space-y-4">
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="hover:text-indigo-400 transition duration-200">About</a>
+                <a href="#" class="hover:text-indigo-400 transition duration-200">Blog</a>
+                <a href="#" class="hover:text-indigo-400 transition duration-200">Terms of Service</a>
+                <a href="#" class="hover:text-indigo-400 transition duration-200">Privacy Policy</a>
+            </div>
+            <p>&copy; 2024 360SpecIQ. All rights reserved. Empowering modern speculators.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
