@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpecIQ Landing - Simple HTML</title>
+    <title>360SpecIQ Landing - Simple HTML</title>
     <style>
         :root {
             --color-primary: #1e293b; /* slate-800 */
@@ -119,7 +119,7 @@
 
     <header>
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="logo">SpecIQ</span>
+            <span class="logo">360SpecIQ</span>
             <button class="button" style="padding: 0.5rem 1rem;">Join waitlist</button>
         </div>
     </header>
@@ -131,7 +131,7 @@
                     See your true edge across every speculative play.
                 </h1>
                 <p>
-                    SpecIQ unifies your options, futures, forex, crypto, sports & prediction-market bets into one clean dashboard.
+                    **360SpecIQ** unifies your options, futures, forex, crypto, sports & prediction-market bets into one clean dashboard.
                 </p>
 
                 <form id="waitlist-form">
@@ -154,7 +154,7 @@
 
         <section class="features">
             <div class="container">
-                <h2 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">What makes SpecIQ different</h2>
+                <h2 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">What makes 360SpecIQ different</h2>
                 <div class="grid-4">
                     <div class="card">
                         <h3>All plays, one P&L</h3>
@@ -179,14 +179,12 @@
     
     <footer style="padding: 2rem 0; text-align: center; font-size: 0.875rem; color: var(--color-secondary);">
         <div class="container">
-            © 2024 SpecIQ. All rights reserved. (Simplified HTML version)
+            © 2024 **360SpecIQ**. All rights reserved. (Simplified HTML version)
         </div>
     </footer>
 
     <script>
         // Simple vanilla JavaScript for the waitlist form.
-        // NOTE: This uses the actual ConvertKit API endpoint you had in your React code!
-        // To make it functional, you must replace the placeholder IDs below.
         
         const CK_FORM_ID = "REPLACE_WITH_YOUR_FORM_ID";
         const CK_API_KEY = "REPLACE_WITH_YOUR_PUBLIC_API_KEY";
@@ -210,7 +208,7 @@
             }
 
             if (CK_FORM_ID.includes("REPLACE")) {
-                messageContainer.textContent = "Form is not configured yet. (This is the expected non-functional state.)";
+                messageContainer.textContent = "Form is not configured yet. To enable, replace the CK_FORM_ID and CK_API_KEY in the <script> section.";
                 messageContainer.classList.add('error');
                 return;
             }
