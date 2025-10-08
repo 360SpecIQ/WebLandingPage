@@ -3,145 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>360SpecIQ - Cross-Market Performance Analytics for Speculators</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Speculat | Unified Performance Analytics for Speculators</title>
+    <meta name="description" content="Speculat is the all-in-one dashboard to measure, visualize, and benchmark your performance across stocks, crypto, forex, and sports betting. Get institutional-grade analytics for your speculative life.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* Custom styles: Primary background is white, main color is gray-900 */
-        .spec-bg {
-            background-color: #ffffff; /* White background */
+        /* --- GLOBAL STYLES (White Primary, Black Secondary) --- */
+        :root {
+            --primary-bg: #FFFFFF; /* White - Primary Background */
+            --secondary-bg: #F4F4F4; /* Light Gray - Secondary Background/Containers */
+            --primary-text: #000000; /* Black - Main Text */
+            --secondary-text: #333333; /* Dark Gray - Secondary Text/Subheadings */
+            --accent: #00CC33; /* A vibrant green (similar to Robinhood's success/growth color) */
+            --border: #E0E0E0; /* Light border lines */
+            --cta-text: #FFFFFF; /* White text on accent buttons */
         }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        a {
+            color: var(--secondary-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--accent);
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background: var(--primary-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-text);
+        }
+        
+        nav a {
+            font-weight: 600;
+            margin-left: 30px;
+        }
+        
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- CTA BUTTON STYLE --- */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--cta-text); 
+            padding: 12px 30px;
+            border-radius: 999px; /* Pill shape for sleek look */
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            background-color: #00AA22; /* Slightly darker green on hover */
+            transform: translateY(-1px);
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            text-align: center;
+            padding: 100px 0;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        #hero .highlight {
+            color: var(--accent);
+        }
+        
+        #hero p {
+            font-size: 1.25rem;
+            color: var(--secondary-text);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #hero small {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 15px;
+        }
+
+        /* --- FEATURE & PRICING HEADINGS --- */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            padding-top: 20px;
+            color: var(--primary-text);
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-text);
+            margin-bottom: 60px;
+        }
+
+        /* --- FEATURE SECTION --- */
+        #features {
+            padding: 60px 0;
+            background-color: var(--secondary-bg);
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .feature-card {
+            background: var(--primary-bg);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-top: 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--secondary-text);
+        }
+
+        /* --- PRICING SECTION --- */
+        #pricing {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .plan-card {
+            background: var(--secondary-bg);
+            padding: 40px;
+            border-radius: 12px;
+            width: 300px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .plan-card.premium {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 204, 51, 0.2);
+            transform: scale(1.05); /* Highlight the best value */
+        }
+        
+        .plan-card h3 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: var(--primary-text);
+        }
+        
+        .plan-card .price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 10px 0 20px;
+            color: var(--accent);
+        }
+        
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 30px;
+            color: var(--secondary-text);
+        }
+        
+        .plan-card ul li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .plan-card ul li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 800;
+            position: absolute;
+            left: 0;
+        }
+        
+        .plan-card .cta-button {
+            width: 100%;
+            padding: 12px 0;
+        }
+        
+        .plan-card:not(.premium) .cta-button {
+            background-color: var(--secondary-text);
+        }
+        .plan-card:not(.premium) .cta-button:hover {
+            background-color: var(--primary-text);
+        }
+
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--secondary-bg);
+            color: var(--secondary-text);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
     </style>
 </head>
-<body class="bg-white text-gray-900 font-sans min-h-screen flex flex-col">
+<body>
 
-    <!-- Header / Navigation Bar -->
-    <header class="p-4 sm:px-8 border-b border-gray-300 sticky top-0 z-10 bg-white/95 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" class="flex items-center space-x-2 text-2xl font-extrabold tracking-tight text-gray-900">
-                <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 10h18M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                <span>360SpecIQ</span>
-            </a>
-            
-            <!-- CTA Button: Black background for high contrast -->
-            <a href="#" class="px-4 py-2 bg-gray-900 text-white font-semibold rounded-lg shadow-lg transition duration-200 text-sm hover:bg-gray-700">
-                Start Free Trial
-            </a>
+    <header>
+        <div class="container flex-between">
+            <div class="logo">Speculat</div>
+            <nav class="flex-between">
+                <a href="#features">Analytics</a>
+                <a href="#social">Social</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#">Log In</a>
+                <a href="#" class="cta-button" style="padding: 8px 20px; margin-left: 20px; font-size: 0.95rem;">Sign Up Free</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-grow">
-        <!-- 1. Hero Section -->
-        <section class="py-16 md:py-24 text-center max-w-6xl mx-auto px-4">
-            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 text-gray-900">
-                Master Your <span class="text-black">Entire Speculative Portfolio</span>.
-            </h1>
-            <p class="text-xl sm:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto">
-                Unify all your profits and risks—from options and crypto to sports betting and prediction markets—in one powerful, data-verified dashboard.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <!-- Primary CTA: Black button on white background -->
-                <a href="#" class="px-8 py-4 bg-gray-900 text-white text-lg font-bold rounded-xl shadow-2xl transition duration-300 transform hover:scale-105 hover:bg-gray-700">
-                    Connect Your Accounts
-                </a>
-                <!-- Secondary CTA: Light gray button -->
-                <a href="#" class="px-8 py-4 bg-gray-200 hover:bg-gray-300 text-gray-900 text-lg font-bold rounded-xl transition duration-300 transform hover:scale-105">
-                    View Demo Dashboard
-                </a>
+    <main>
+        <section id="hero" class="container">
+            <div>
+                <h1>Verify Your Edge.<br>The Unified <span class="highlight">Performance</span> Hub.</h1>
+                <p>Speculat connects all your speculative activity—stocks, crypto, forex, and betting—to give you institutional-grade risk metrics and a transparent social scoreboard.</p>
+                <a href="#" class="cta-button">Start Measuring Your P/L Now</a>
+                <small>No credit card required. Free tier includes aggregated P/L tracking.</small>
             </div>
-            
-            <!-- Placeholder for App Screenshot/Dashboard -->
-            <div class="mt-16 bg-gray-100 p-6 rounded-2xl shadow-lg border border-gray-300">
-                <p class="text-gray-600 text-lg font-mono">
-                    // 360SpecIQ Dashboard Preview: Unified P/L Visualization
-                </p>
-                <!-- Image placeholder using Tailwind utility classes -->
-                <div class="h-48 sm:h-72 md:h-96 w-full mt-4 bg-gray-300 rounded-lg flex items-center justify-center">
-                    <svg class="w-16 h-16 text-gray-700 opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M4 11h3v10H4zm6-7h3v17h-3zM16 8h3v13h-3z"></path>
-                    </svg>
+        </section>
+
+        <section id="features" class="container">
+            <h2>Stop Guessing. Start Measuring.</h2>
+            <p class="section-subtitle">Bridging the gap between a fragmented speculative life and verified performance.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>All-in-One Dashboard</h3>
+                    <p>Stop manually totaling spreadsheets. Sync **Robinhood, Binance, FanDuel**, and more into one clean, aggregated interface. Total P/L is finally consolidated.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Risk-Adjusted Metrics</h3>
+                    <p>Move beyond simple ROI. Get your verified **Sharpe Ratio, Max Drawdown**, and **Beta** analysis—the metrics that separate pros from amateurs.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Social Accountability</h3>
+                    <p>Share a **data-verified Speculat Profile** and climb the social leaderboards. Build real, transparent credibility in the speculative community.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="social" class="container" style="padding: 60px 0;">
+            <h2 style="text-align: center;">Deep Dive with Institutional Tools</h2>
+            <p class="section-subtitle" style="text-align: center;">Advanced insights powered by proprietary AI to enhance your decision-making.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>AI Behavioral Insights</h3>
+                    <p>Our proprietary algorithms flag changes in your risk profile. Example: *"Your average position size increased 15% following a winning streak."*</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Cross-Market Correlation</h3>
+                    <p>Visualize how your crypto, options, and sports betting activities influence each other. Identify hidden correlations and true portfolio diversification.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Verified Creator Mode</h3>
+                    <p>Content creators can showcase their **verified performance badge** to their audience, eliminating skeptical comments and building trust instantly.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 2. Features/Value Proposition Section -->
-        <section class="py-16 md:py-20 bg-gray-100 border-t border-b border-gray-300 px-4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center mb-12 text-gray-900">
-                    Institutional-Grade Analytics for the Everyday Speculator
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <!-- Feature Card 1: Unified P/L -->
-                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
-                        <!-- Monochrome icon styling -->
-                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-gray-900/10 text-gray-900">
-                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Unified P/L Across All Markets</h3>
-                        <p class="text-gray-600">
-                            Stop checking fragmented accounts. Consolidate your performance—options, futures, crypto, sports betting, and prediction markets—into one true profitability figure.
-                        </p>
-                    </div>
+        <section id="pricing" class="container">
+            <h2>Choose Your Analytics Tier</h2>
+            <div class="pricing-grid">
+                
+                <div class="plan-card">
+                    <h3>Free Plan</h3>
+                    <div class="price">$0<span style="font-size: 1.2rem; font-weight: 400; color: var(--secondary-text);">/mo</span></div>
+                    <p>Get started. Consolidate your basic P/L.</p>
+                    <ul>
+                        <li>Unified P/L Dashboard</li>
+                        <li>Manual & CSV Import</li>
+                        <li>Basic Metrics (ROI, Win %)</li>
+                        <li>P/L by Asset Class</li>
+                    </ul>
+                    <a href="#" class="cta-button">Get Started Free</a>
+                </div>
 
-                    <!-- Feature Card 2: Risk-Adjusted Metrics -->
-                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
-                        <!-- Monochrome icon styling -->
-                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-gray-900/10 text-gray-900">
-                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6m-9-4h9"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Measure True Risk Exposure</h3>
-                        <p class="text-gray-600">
-                            Go beyond ROI. Understand your risk-adjusted returns with **Sharpe, Sortino, and Max Drawdown** metrics previously reserved for institutional traders.
-                        </p>
-                    </div>
+                <div class="plan-card premium">
+                    <h3>Pro Plan (Best Value)</h3>
+                    <div class="price">$12<span style="font-size: 1.2rem; font-weight: 400; color: var(--secondary-text);">/mo</span></div>
+                    <p>The essential kit for the active speculator.</p>
+                    <ul>
+                        <li>**All Core API Syncs** (Brokerages/Exchanges)</li>
+                        <li>**Sharpe & Sortino Ratios**</li>
+                        <li>Max Drawdown & Beta Analysis</li>
+                        <li>Full Leaderboard & Ranking</li>
+                        <li>Advanced Visualizations</li>
+                    </ul>
+                    <a href="#" class="cta-button">Start 7-Day Trial</a>
+                </div>
 
-                    <!-- Feature Card 3: Social Accountability -->
-                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
-                        <!-- Monochrome icon styling -->
-                        <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-gray-900/10 text-gray-900">
-                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6a2 2 0 002-2v-1a2 2 0 00-2-2h-2.586l-1.414-1.414A2 2 0 0012 14h-2m4 0h2m-4 0h2m-4 0h2"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Social Leaderboard</h3>
-                        <p class="text-gray-600">
-                            Build credibility. Benchmark your performance against the community on our social leaderboard, where every P/L and return is data-verified.
-                        </p>
-                    </div>
-
+                <div class="plan-card">
+                    <h3>Elite Plan</h3>
+                    <div class="price">$25<span style="font-size: 1.2rem; font-weight: 400; color: var(--secondary-text);">/mo</span></div>
+                    <p>For high-volume traders and influencers.</p>
+                    <ul>
+                        <li>**All Pro Features**</li>
+                        <li>AI-Driven Behavioral Insights</li>
+                        <li>Creator Mode (Verified Badges)</li>
+                        <li>Team/Group Analytics</li>
+                        <li>Priority Integration Access</li>
+                    </ul>
+                    <a href="#" class="cta-button">Go Elite</a>
                 </div>
             </div>
-        </section>
-
-        <!-- 3. CTA / Pricing Summary -->
-        <section class="py-16 md:py-20 max-w-5xl mx-auto px-4 text-center">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 text-gray-900">
-                Start with Free, Scale with Pro.
-            </h2>
-            <p class="text-xl text-gray-600 mb-8">
-                Our **Freemium Model** lets you access unified P/L, basic metrics, and manual uploads at no cost. Upgrade to Pro for **Sharpe Ratio, Max Drawdown, and AI insights.**
-            </p>
-            <!-- CTA Button: Black button for high contrast -->
-            <a href="#" class="inline-block px-10 py-4 bg-gray-900 text-white text-lg font-bold rounded-xl shadow-2xl shadow-gray-900/40 transition duration-300 transform hover:translate-y-[-2px] hover:bg-gray-700">
-                See Pricing Plans
-            </a>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="p-8 border-t border-gray-300 mt-12">
-        <div class="max-w-7xl mx-auto text-center text-gray-600 text-sm space-y-4">
-            <div class="flex justify-center space-x-6">
-                <a href="#" class="hover:text-gray-900 transition duration-200">About</a>
-                <a href="#" class="hover:text-gray-900 transition duration-200">Blog</a>
-                <a href="#" class="hover:text-gray-900 transition duration-200">Terms of Service</a>
-                <a href="#" class="hover:text-gray-900 transition duration-200">Privacy Policy</a>
-            </div>
-            <p>&copy; 2024 360SpecIQ. All rights reserved. Empowering modern speculators.</p>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Speculat (SpecIQ). All rights reserved. | Analytics, not trading/betting advice. | <a href="#" style="color: var(--secondary-text);">Privacy Policy</a> | <a href="#" style="color: var(--secondary-text);">Terms</a></p>
         </div>
     </footer>
 
