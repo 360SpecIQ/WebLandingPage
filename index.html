@@ -1,502 +1,244 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, ChevronRight, Rocket, Shield, LineChart, Users, Zap, Lock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpecIQ Landing - Simple HTML</title>
+    <style>
+        :root {
+            --color-primary: #1e293b; /* slate-800 */
+            --color-secondary: #475569; /* slate-600 */
+            --color-accent: #0f172a; /* slate-900 */
+            --color-background: #f8fafc; /* slate-50 */
+            --color-success: #059669; /* emerald-600 */
+            --color-error: #dc2626; /* red-600 */
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-background);
+            color: var(--color-accent);
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        header {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            background-color: white;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--color-accent);
+        }
+        .hero {
+            padding: 4rem 0 6rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--color-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .form-group {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .input-text {
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            flex-grow: 1;
+        }
+        .button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: var(--color-primary);
+        }
+        .message {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        .message.success {
+            color: var(--color-success);
+        }
+        .message.error {
+            color: var(--color-error);
+        }
+        /* Feature Cards (Simplified) */
+        .features {
+            padding: 3rem 0;
+            background-color: white;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .card h3 {
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .card p {
+            color: var(--color-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
 
-// PHASE 1 GOAL: Public-facing landing page that communicates the value prop,
-// collects waitlist emails, previews features, and establishes basic trust.
-// Tech: React + Tailwind + shadcn/ui + Framer Motion (no backend required yet).
-// Notes: Replace placeholders (logo, screenshots, links) during Phase 2.
-// EMAIL WIRING (ConvertKit):
-// 1) Set CK_FORM_ID to your ConvertKit Form ID and CK_API_KEY to your public API key (NOT the secret).
-// 2) The public API key is safe client-side; do NOT expose your secret API key.
-// 3) Submissions hit: https://api.convertkit.com/v3/forms/{FORM_ID}/subscribe
-// 4) Toggle double opt-in and incentive email in ConvertKit > Forms > Settings.
-// 5) If you prefer server-side, swap fetch() target to "/api/subscribe" and forward from a Next.js route.
-
-const features = [
-  {
-    icon: <LineChart className="h-5 w-5" />,
-    title: "All plays, one P&L",
-    desc: "Unify options, futures, forex, crypto, sports & prediction markets into a single, real-time P&L and risk view.",
-  },
-  {
-    icon: <Shield className="h-5 w-5" />,
-    title: "Risk-adjusted clarity",
-    desc: "Sharpe, Sortino, drawdowns, Kelly sizing hints — distilled for speculators, not spreadsheets.",
-  },
-  {
-    icon: <Users className="h-5 w-5" />,
-    title: "Opt-in leaderboards",
-    desc: "Compete privately or publicly with fair, risk-adjusted rankings across assets and time horizons.",
-  },
-  {
-    icon: <Zap className="h-5 w-5" />,
-    title: "Effortless ingest",
-    desc: "CSV uploads, broker connects (coming soon), and manual quick-add with sane defaults.",
-  },
-];
-
-const tiers = [
-  {
-    name: "Free",
-    price: "$0",
-    period: "forever",
-    highlight: false,
-    features: [
-      "Unified P&L dashboard (delayed)",
-      "CSV imports (monthly cap)",
-      "Basic risk metrics (daily)",
-      "Private profile",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "$14",
-    period: "/mo",
-    highlight: true,
-    features: [
-      "Real-time multi-asset P&L",
-      "Advanced risk (Sharpe, Sortino, DD)",
-      "Unlimited imports & API connects",
-      "Leaderboard & social (opt-in)",
-      "Priority support",
-    ],
-  },
-  {
-    name: "Team",
-    price: "$39",
-    period: "/user/mo",
-    highlight: false,
-    features: [
-      "Role-based workspaces",
-      "Shared analytics & notes",
-      "Audit & export trails",
-      "SAML/SSO (soon)",
-    ],
-  },
-];
-
-const faqs = [
-  {
-    q: "What data sources will you support?",
-    a: "Phase 1 supports CSV templates; Phase 2 adds broker connections and exchange APIs, starting with equities/options, futures, crypto, and select prediction markets.",
-  },
-  {
-    q: "How do you handle privacy?",
-    a: "We minimize PII, encrypt at rest/in transit, and give you granular control over what is public or private. Opt-in only for leaderboards.",
-  },
-  {
-    q: "Is this a trading platform?",
-    a: "No. SpecIQ is analytics and portfolio intelligence for speculative plays. Execution integrations may come later via partners.",
-  },
-  {
-    q: "Can I export my data?",
-    a: "Yes — CSV/JSON exports are core. Your data remains yours.",
-  },
-];
-
-// === ConvertKit public config (replace with your actual values) ===
-const CK_FORM_ID = "REPLACE_WITH_YOUR_FORM_ID"; // e.g., 1234567
-const CK_API_KEY = "REPLACE_WITH_YOUR_PUBLIC_API_KEY"; // e.g., pk_xxxxxxxxx
-
-export default function SpecIQLanding() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    const value = email.trim();
-    const ok = /.+@.+\..+/.test(value);
-    if (!ok) {
-      setError("Please enter a valid email.");
-      return;
-    }
-
-    if (!CK_FORM_ID || CK_FORM_ID.includes("REPLACE")) {
-      setError("Form not configured yet. Ask us to enable the waitlist.");
-      return;
-    }
-
-    try {
-      const res = await fetch(`https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          api_key: CK_API_KEY,
-          email: value,
-          // first_name: undefined, // optional
-          // fields: { source: "speciq-landing" }, // optional custom fields
-        }),
-      });
-
-      if (!res.ok) {
-        const t = await res.text();
-        console.error("ConvertKit error:", t);
-        throw new Error("Subscription failed. Please try again.");
-      }
-
-      setSubmitted(true);
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong. Please try again.");
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900">
-      <Header />
-      <main>
-        <Hero email={email} setEmail={setEmail} submitted={submitted} error={error} submit={submit} />
-        <TrustBar />
-        <FeatureGrid />
-        <Screenshots />
-        <Pricing />
-        <Security />
-        <CTA />
-        <FAQ />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2">
-          {/* Placeholder Logo */}
-          <div className="h-8 w-8 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">S</div>
-          <span className="font-semibold tracking-tight">SpecIQ</span>
-          <Badge variant="secondary" className="ml-2">Beta</Badge>
-        </a>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600">
-          <a href="#features" className="hover:text-slate-900">Features</a>
-          <a href="#pricing" className="hover:text-slate-900">Pricing</a>
-          <a href="#security" className="hover:text-slate-900">Security</a>
-          <a href="#faq" className="hover:text-slate-900">FAQ</a>
-        </nav>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" className="hidden sm:inline-flex">Sign in</Button>
-          <Button className="bg-slate-900 hover:bg-slate-800">Join waitlist</Button>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="logo">SpecIQ</span>
+            <button class="button" style="padding: 0.5rem 1rem;">Join waitlist</button>
         </div>
-      </div>
     </header>
-  );
-}
 
-function Hero({ email, setEmail, submitted, error, submit }: any) {
-  return (
-    <section className="relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-28 grid lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <Badge className="mb-4" variant="secondary"><span className="inline-flex items-center gap-2"><Rocket className="h-4 w-4"/>Phase 1 is live</span></Badge>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            See your <span className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">true edge</span> across every speculative play.
-          </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-xl">
-            SpecIQ unifies your options, futures, forex, crypto, sports & prediction-market bets into one clean dashboard — with risk-adjusted metrics that actually matter.
-          </p>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>
+                    See your true edge across every speculative play.
+                </h1>
+                <p>
+                    SpecIQ unifies your options, futures, forex, crypto, sports & prediction-market bets into one clean dashboard.
+                </p>
 
-          <form onSubmit={submit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-xl">
-            <Input
-              type="email"
-              placeholder="you@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-11"
-              aria-label="Email address"
-            />
-            <Button type="submit" className="h-11 px-6 bg-slate-900 hover:bg-slate-800">
-              Join waitlist <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          </form>
-          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-          {submitted && (
-            <p className="mt-2 text-sm text-emerald-700 flex items-center gap-2">
-              <Check className="h-4 w-4" /> Thank you! You'll hear from us soon.
-            </p>
-          )}
+                <form id="waitlist-form">
+                    <div class="form-group">
+                        <input type="email" id="email-input" class="input-text" placeholder="you@domain.com" required>
+                        <button type="submit" class="button">
+                            Join waitlist
+                        </button>
+                    </div>
+                    <div id="message-container" class="message"></div>
+                </form>
 
-          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
-            <li className="flex items-center gap-2"><Check className="h-4 w-4"/> No spam</li>
-            <li className="flex items-center gap-2"><Check className="h-4 w-4"/> Export anytime</li>
-            <li className="flex items-center gap-2"><Check className="h-4 w-4"/> Private by default</li>
-          </ul>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative"
-        >
-          {/* Mocked product preview card */}
-          <Card className="shadow-xl rounded-2xl">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LineChart className="h-5 w-5" /> Unified P&L (Preview)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <Metric label="Total P&L" value="$12,450" sub="MTD" />
-                <Metric label="Sharpe (90d)" value="1.27" sub="risk-adj." />
-                <Metric label="Win rate" value="54%" sub="last 200 plays" />
-                <Metric label="Max DD" value="-8.6%" sub="peak-to-trough" />
-              </div>
-              <div className="mt-6 h-40 w-full rounded-xl bg-gradient-to-tr from-slate-100 to-slate-50 grid place-items-center text-slate-400">
-                <span>Performance chart placeholder</span>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-3 text-sm">
-                <Tag>Options</Tag>
-                <Tag>Futures</Tag>
-                <Tag>Crypto</Tag>
-                <Tag>FX</Tag>
-                <Tag>Sports</Tag>
-                <Tag>Polymarket</Tag>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function TrustBar() {
-  return (
-    <section className="py-8 border-y border-slate-200 bg-white/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-6 text-slate-500 text-xs uppercase tracking-wider">
-        <span>Bank-grade encryption</span>
-        <span>GDPR-friendly</span>
-        <span>Export anytime</span>
-        <span>Private by default</span>
-      </div>
-    </section>
-  );
-}
-
-function FeatureGrid() {
-  return (
-    <section id="features" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-      <div className="text-center max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight">What makes SpecIQ different</h2>
-        <p className="mt-3 text-slate-600">Purpose-built analytics for modern speculation — less noise, more signal.</p>
-      </div>
-      <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {features.map((f) => (
-          <Card key={f.title} className="rounded-2xl">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">{f.icon}</span>
-                {f.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-slate-600">{f.desc}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Screenshots() {
-  return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10">
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-base">Multi-asset dashboard</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64 rounded-xl bg-slate-50 grid place-items-center text-slate-400">Screenshot placeholder</div>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-base">Risk-adjusted leaderboard</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64 rounded-xl bg-slate-50 grid place-items-center text-slate-400">Screenshot placeholder</div>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
-  );
-}
-
-function Pricing() {
-  return (
-    <section id="pricing" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-      <div className="text-center max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight">Simple, transparent pricing</h2>
-        <p className="mt-3 text-slate-600">Start free. Upgrade when you need deeper analytics and integrations.</p>
-      </div>
-      <div className="mt-10 grid md:grid-cols-3 gap-6">
-        {tiers.map((t) => (
-          <Card key={t.name} className={`rounded-2xl ${t.highlight ? "border-slate-900 border-2" : ""}`}>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>{t.name}</span>
-                {t.highlight && <Badge className="bg-slate-900">Most popular</Badge>}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-extrabold">{t.price}</span>
-                <span className="text-slate-500">{t.period}</span>
-              </div>
-              <ul className="mt-4 space-y-2 text-sm">
-                {t.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2"><Check className="h-4 w-4 mt-0.5" /> {f}</li>
-                ))}
-              </ul>
-              <Button className="mt-6 w-full bg-slate-900 hover:bg-slate-800">Get started</Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Security() {
-  return (
-    <section id="security" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-      <div className="grid lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight flex items-center gap-2"><Lock className="h-7 w-7"/>Security & privacy, by design</h2>
-          <p className="mt-4 text-slate-600">Your data stays yours. We employ encryption at rest and in transit, strict access controls, and privacy-first defaults. Public sharing and leaderboards are opt-in only.</p>
-          <ul className="mt-4 space-y-2 text-sm text-slate-700">
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5"/> Granular privacy controls</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5"/> Full data export & deletion</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5"/> Minimal PII collection</li>
-          </ul>
-        </div>
-        <Card className="rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-base">Compliance-ready foundation</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 text-sm text-slate-600">
-              <p>Phase 1 targets GDPR-friendly practices. Phase 2 will evaluate SOC 2 Type I readiness and third-party security reviews.</p>
-              <p>We design for portability: your data can be exported or deleted on request.</p>
+                <ul style="margin-top: 2rem; list-style: none; padding: 0; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.875rem; color: var(--color-secondary);">
+                    <li>✅ No spam</li>
+                    <li>✅ Export anytime</li>
+                    <li>✅ Private by default</li>
+                </ul>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
-  );
-}
+        </section>
 
-function CTA() {
-  return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <Card className="rounded-3xl bg-gradient-to-br from-slate-900 to-slate-700 text-white">
-        <CardContent className="py-10 px-6 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl font-bold">Be first to try SpecIQ</h3>
-              <p className="mt-2 text-slate-200">Join the early access list for product updates and the private beta invite.</p>
+        <section class="features">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">What makes SpecIQ different</h2>
+                <div class="grid-4">
+                    <div class="card">
+                        <h3>All plays, one P&L</h3>
+                        <p>Unify all your markets into a single, real-time P&L and risk view.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Risk-adjusted clarity</h3>
+                        <p>Sharpe, Sortino, drawdowns—distilled for speculators, not spreadsheets.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Opt-in leaderboards</h3>
+                        <p>Compete privately or publicly with fair, risk-adjusted rankings.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Effortless ingest</h3>
+                        <p>CSV uploads, broker connects (coming soon), and manual quick-add.</p>
+                    </div>
+                </div>
             </div>
-            <div className="flex justify-end">
-              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100">
-                Request early access
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </section>
-  );
-}
-
-function FAQ() {
-  return (
-    <section id="faq" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-      <div className="text-center max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight">FAQs</h2>
-        <p className="mt-3 text-slate-600">Short and honest answers. More details coming as we build.</p>
-      </div>
-      <div className="mt-10 grid md:grid-cols-2 gap-6">
-        {faqs.map((f) => (
-          <Card key={f.q} className="rounded-2xl">
-            <CardHeader>
-              <CardTitle className="text-base">{f.q}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-slate-600">{f.a}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-slate-200 py-10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8 text-sm">
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">S</div>
-            <span className="font-semibold tracking-tight">SpecIQ</span>
-          </div>
-          <p className="mt-3 text-slate-600">Portfolio intelligence for speculators.</p>
+        </section>
+    </main>
+    
+    <footer style="padding: 2rem 0; text-align: center; font-size: 0.875rem; color: var(--color-secondary);">
+        <div class="container">
+            © 2024 SpecIQ. All rights reserved. (Simplified HTML version)
         </div>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <div className="font-semibold">Product</div>
-            <ul className="text-slate-600 space-y-1">
-              <li><a href="#features" className="hover:text-slate-900">Features</a></li>
-              <li><a href="#pricing" className="hover:text-slate-900">Pricing</a></li>
-              <li><a href="#" className="hover:text-slate-900">Roadmap</a></li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <div className="font-semibold">Company</div>
-            <ul className="text-slate-600 space-y-1">
-              <li><a href="#" className="hover:text-slate-900">Privacy</a></li>
-              <li><a href="#" className="hover:text-slate-900">Terms</a></li>
-              <li><a href="#" className="hover:text-slate-900">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex md:justify-end md:items-start">
-          <a href="#" className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 hover:bg-slate-50">
-            <span>Request a demo</span> <ChevronRight className="h-4 w-4"/>
-          </a>
-        </div>
-      </div>
-      <div className="mt-8 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} SpecIQ. All rights reserved.
-      </div>
     </footer>
-  );
-}
 
-function Metric({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-      <div className="text-xs uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="text-xl font-semibold">{value}</div>
-      {sub && <div className="text-xs text-slate-500">{sub}</div>}
-    </div>
-  );
-}
+    <script>
+        // Simple vanilla JavaScript for the waitlist form.
+        // NOTE: This uses the actual ConvertKit API endpoint you had in your React code!
+        // To make it functional, you must replace the placeholder IDs below.
+        
+        const CK_FORM_ID = "REPLACE_WITH_YOUR_FORM_ID";
+        const CK_API_KEY = "REPLACE_WITH_YOUR_PUBLIC_API_KEY";
 
-function Tag({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600">{children}</span>
-  );
-}
+        const form = document.getElementById('waitlist-form');
+        const emailInput = document.getElementById('email-input');
+        const messageContainer = document.getElementById('message-container');
 
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            messageContainer.textContent = '';
+            messageContainer.classList.remove('success', 'error');
+
+            const email = emailInput.value.trim();
+            const isValidEmail = /.+@.+\..+/.test(email);
+
+            if (!isValidEmail) {
+                messageContainer.textContent = "Please enter a valid email.";
+                messageContainer.classList.add('error');
+                return;
+            }
+
+            if (CK_FORM_ID.includes("REPLACE")) {
+                messageContainer.textContent = "Form is not configured yet. (This is the expected non-functional state.)";
+                messageContainer.classList.add('error');
+                return;
+            }
+
+            // Attempt to subscribe (this will only work if the REPLACE placeholders are fixed)
+            try {
+                const response = await fetch(`https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        api_key: CK_API_KEY,
+                        email: email,
+                    }),
+                });
+
+                if (response.ok) {
+                    messageContainer.textContent = "Thank you! You'll hear from us soon.";
+                    messageContainer.classList.add('success');
+                    form.reset();
+                } else {
+                    throw new Error("Subscription failed. Please try again.");
+                }
+
+            } catch (error) {
+                messageContainer.textContent = error.message || "Something went wrong. Please try again.";
+                messageContainer.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>
